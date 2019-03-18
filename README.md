@@ -5,7 +5,7 @@ fractals PascalABC.NET
   
 Кривая Коха
 ------------
-![Кривая Коха](https://psv4.userapi.com/c848224/u400008940/docs/d15/7facab86b8cf/Koch.gif)
+![Кривая Коха](https://pp.userapi.com/c830401/v830401701/18d15f/0vJ5O3PDuIY.jpg)
 
 ```pascal
 ...
