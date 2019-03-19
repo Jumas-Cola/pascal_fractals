@@ -17,6 +17,7 @@ procedure serp_square(x, y, l, n: integer; first: boolean := True);// квадр
 procedure serp_triangle(x, y, l, n: integer; first: boolean := True);// треугольник Серпинского
 procedure chaos_serp(arr: array of integer);// процедура отрисовки треугольника Серпинского методом хаоса
 procedure chaos_barns(size, padding_left, padding_bottom: integer);// процедура отрисовки папортника Барнсли
+procedure pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);// дерево Пифагора
 
 implementation
 
@@ -243,6 +244,46 @@ begin
         PutPixel(round(x + padding_left), window.height - round(y + padding_bottom), RGB(0, 100, 0));
         MoveTo(round(x), round(y + size));
     end;
+end;
+
+// дерево Пифагора
+procedure pifagor_tree;
+var
+    cur_x, cur_y: integer;
+begin
+    if first then
+    begin
+        moveto(x, y);
+        SetPenColor(rgb(101, 224, 128));
+        SetPenWidth(4);
+        first := False;
+    end;
+    
+    // цветовая маркировка глубины рекурсии
+    if (n < 13) and (n >= 10) then
+    begin
+        SetPenColor(rgb(0, 193, 43));
+        SetPenWidth(2);
+    end
+    else if (n < 10) and (n >= 1) then
+    begin
+        SetPenColor(rgb(36, 145, 60));
+        SetPenWidth(1);
+    end
+    else if (n < 1) then
+        SetPenColor(rgb(0, 125, 28));
+    
+    go_forward(l, a);
+    
+    if (n <= 0) then exit;
+    cur_x := penx();
+    cur_y := peny();
+    pifagor_tree(x, y, l / sqrt(2), a + Pi / 4, n - 1, first);
+    moveto(cur_x, cur_y);
+    pifagor_tree(x, y, l / sqrt(2), a - Pi / 4, n - 1, first);
+    
+    SetPenColor(rgb(101, 224, 128));
+    SetPenWidth(4);
 end;
 
 end.

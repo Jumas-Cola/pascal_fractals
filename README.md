@@ -295,3 +295,52 @@ end;
 ...
 
 ```
+
+Дерево Пифагора
+------------
+![Дерево Пифагора](https://pp.userapi.com/c845124/v845124698/11015f/7HUGxpKrANc.jpg)
+
+```pascal
+...
+// дерево Пифагора
+procedure pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);
+var
+    cur_x, cur_y: integer;
+begin
+    if first then
+    begin
+        moveto(x, y);
+        SetPenColor(rgb(101, 224, 128));
+        SetPenWidth(4);
+        first := False;
+    end;
+
+    // цветовая маркировка глубины рекурсии
+    if (n < 13) and (n >= 10) then
+    begin
+        SetPenColor(rgb(0, 193, 43));
+        SetPenWidth(2);
+    end
+    else if (n < 10) and (n >= 1) then
+    begin
+        SetPenColor(rgb(36, 145, 60));
+        SetPenWidth(1);
+    end
+    else if (n < 1) then
+        SetPenColor(rgb(0, 125, 28));
+
+    go_forward(l, a);
+
+    if (n <= 0) then exit;
+    cur_x := penx();
+    cur_y := peny();
+    pifagor_tree(x, y, l / sqrt(2), a + Pi / 4, n - 1, first);
+    moveto(cur_x, cur_y);
+    pifagor_tree(x, y, l / sqrt(2), a - Pi / 4, n - 1, first);
+
+    SetPenColor(rgb(101, 224, 128));
+    SetPenWidth(4);
+end;
+...
+
+```

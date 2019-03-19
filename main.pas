@@ -76,5 +76,12 @@ begin
     //процедура отрисовки папортника Барнсли
     chaos_barns(80, 300, 20);
     
+    Sleep(1000); // пауза
+    ClearWindow(); // очистка окна
+    
+    // дерево Пифагора
+    pifagor_tree(window.Center.X, window.Height - 5, 150, -Pi / 2, 15);
+    
+    Sleep(1000); // пауза
     CloseWindow(); // закрытие окна
 end.
