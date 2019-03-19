@@ -12,9 +12,11 @@ procedure koch(order: integer; size: real);// отрисовка кривой К
 procedure mink(order: integer; size: real);// отрисовка кривой Минковского
 procedure levi(order: integer; size: real);// отрисовка кривой Леви
 procedure dragon(order: integer; size: real; dir: char := 'r');// отрисовка кривой дракона
-procedure serp(order: integer; size: real; dir: char := 'f');//приближённая отрисовка треугольника Серпинского
-procedure chaos_serp(arr: array of integer);//процедура отрисовки ковра Серпинского методом хаоса
-procedure chaos_barns(size, padding_left, padding_bottom: integer);//процедура отрисовки папортника Барнсли
+procedure serp(order: integer; size: real; dir: char := 'f');// приближённая отрисовка треугольника Серпинского
+procedure serp_square(x, y, l, n: integer; first: boolean := True);// квадрат Серпинского
+procedure serp_triangle(x, y, l, n: integer; first: boolean := True);// треугольник Серпинского
+procedure chaos_serp(arr: array of integer);// процедура отрисовки треугольника Серпинского методом хаоса
+procedure chaos_barns(size, padding_left, padding_bottom: integer);// процедура отрисовки папортника Барнсли
 
 implementation
 
@@ -110,7 +112,7 @@ begin
     end;
 end;
 
-//приближённая отрисовка треугольника Серпинского
+// приближённая отрисовка треугольника Серпинского
 procedure serp;
 begin
     if order = 0 then
@@ -142,7 +144,57 @@ begin
     end;
 end;
 
-//процедура отрисовки ковра Серпинского методом хаоса
+// квадрат Серпинского
+procedure serp_square;
+var
+    third_part := (l div 3);
+begin
+    if first then
+    begin
+        SetBrushColor(clBlack);
+        FillRectangle(x, y, x + l, y + l);
+        SetBrushColor(clWhite);
+        first := False;
+    end;
+    FillRectangle(x + third_part, y + third_part, x + 2 * third_part, y + 2 * third_part);
+    if (n <= 0) then exit;
+    for i: integer := 0 to 2 do
+        for j: integer := 0 to 2 do
+            if (i <> j) or (i <> 1) then
+                serp_square(x + third_part * i, y + third_part * j, third_part, n - 1);
+end;
+
+// треугольник Серпинского
+procedure serp_triangle;
+var
+    p: array of Point;
+begin
+    if first then
+    begin
+        SetLength(p, 3);
+        var delta_x := l div 2;
+        var delta_y := round(sqrt(3) * l) div 2;
+        p[0].x := x; p[0].y := y;
+        p[1].x := x + delta_x; p[1].y := y + delta_y;
+        p[2].x := x - delta_x; p[2].y := y + delta_y;
+        SetBrushColor(clBlack);
+        Polygon(p);
+        SetBrushColor(clWhite);
+        first := False;
+    end;
+    var delta_x := l div 4;
+    var delta_y := round(sqrt(3) * l) div 4;
+    p[0].x := x; p[0].y := y + round(sqrt(3) * l) div 2;
+    p[1].x := x + delta_x; p[1].y := y + delta_y;
+    p[2].x := x - delta_x; p[2].y := y + delta_y;
+    Polygon(p);
+    if (n <= 0) then exit;
+    serp_triangle(x, y, l div 2, n - 1);
+    serp_triangle(x + delta_x, y + delta_y, l div 2, n - 1);
+    serp_triangle(x - delta_x, y + delta_y, l div 2, n - 1);
+end;
+
+//процедура отрисовки треугольника Серпинского методом хаоса
 procedure chaos_serp;
 var
     x: integer;
@@ -153,7 +205,7 @@ begin
     for i: integer := 0 to 100000 do
     begin
         x := (random(round(length(arr) / 2)) + 1) * 2 - 1;
-        PutPixel(round((arr[x - 1] + penx()) / 2), round((arr[x] + peny()) / 2), RGB(0, 0, 0));
+        PutPixel(round((arr[x - 1] + penx()) / 2), round((arr[x] + peny()) / 2), clRandom);
         MoveTo(round((arr[x - 1] + penx()) / 2), round((arr[x] + peny()) / 2));
     end;
 end;
