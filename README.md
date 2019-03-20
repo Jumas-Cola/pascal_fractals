@@ -299,6 +299,7 @@ end;
 Дерево Пифагора
 ------------
 ![Дерево Пифагора](https://pp.userapi.com/c845324/v845324103/1ce3bd/-AlCF2a5mjo.jpg)
+![Дерево Пифагора](https://pp.userapi.com/c853428/v853428819/ad78/AloW2U2C9uE.jpg)
 
 ```pascal
 ...

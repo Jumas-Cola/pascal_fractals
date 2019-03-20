@@ -3,30 +3,28 @@ uses fractals;
 
 begin
     var center := window.center;
-    var size := 300; // длина сегмента
-    var order := 5; // порядок рекурсии
     moveto(center.x - 200, center.y - 100); // установка указателя на 100 пикселей выше и на 200 левее центра
     
     a := 0; // начальное значение угла
     // отрисовка трёх кривых Коха под углом в 120 градусов (снежинка Коха)
-    koch(order, size);
+    koch(5, 300);
     a += 2 * Pi / 3;
-    koch(order, size);
+    koch(5, 300);
     a += 2 * Pi / 3;
-    koch(order, size);
+    koch(5, 300);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
     
     a := 0; // начальное значение угла
     // отрисовка кривой Минковского
-    mink(3, size * 10);
+    mink(3, 3000);
     a += Pi / 2;
-    mink(3, size * 10);
+    mink(3, 3000);
     a += Pi / 2;
-    mink(3, size * 10);
+    mink(3, 3000);
     a += Pi / 2;
-    mink(3, size * 10);
+    mink(3, 3000);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
@@ -34,14 +32,14 @@ begin
     
     a := Pi; // начальное значение угла
     // отрисовка кривой Леви
-    levi(9, size / 30);
+    levi(9, 10);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
     
     a := 0; // начальное значение угла
     // отрисовка кривой дракона
-    dragon(15, size);
+    dragon(15, 300);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
@@ -49,7 +47,7 @@ begin
     
     a := 0; // начальное значение угла
     // приближённая отрисовка треугольника Серпинского
-    serp(8, size * 37);
+    serp(8, 11100);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
@@ -61,7 +59,7 @@ begin
     ClearWindow(); // очистка окна
     
     // треугольник Серпинского
-    serp_triangle(window.Center.X, 5, 600, 7);
+    serp_triangle(center.x, 5, 600, 7);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна
@@ -80,7 +78,12 @@ begin
     ClearWindow(); // очистка окна
     
     // дерево Пифагора
-    pifagor_tree(window.Center.X, window.Height - 5, 150, -Pi / 2, 15);
+    pifagor_tree(center.x, window.height - 5, 150, -Pi / 2, 15);
+    
+    Sleep(1000); // пауза
+    ClearWindow(); // очистка окна
+    
+    classic_pifagor_tree(center.x, window.height - 30, 100, -Pi / 2, 12);
     
     Sleep(1000); // пауза
     CloseWindow(); // закрытие окна

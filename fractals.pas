@@ -8,6 +8,7 @@ var
     a: real;// глобальная переменная текущего угла
 
 procedure go_forward(len: real; angle: real);// отрисовка прямой заданной длины и заданного наклона
+procedure move_forward(len: real; angle: real);// перемещение указателя на прямую заданной длины и заданного наклона
 procedure koch(order: integer; size: real);// отрисовка кривой Коха
 procedure mink(order: integer; size: real);// отрисовка кривой Минковского
 procedure levi(order: integer; size: real);// отрисовка кривой Леви
@@ -18,6 +19,7 @@ procedure serp_triangle(x, y, l, n: integer; first: boolean := True);// треу
 procedure chaos_serp(arr: array of integer);// процедура отрисовки треугольника Серпинского методом хаоса
 procedure chaos_barns(size, padding_left, padding_bottom: integer);// процедура отрисовки папортника Барнсли
 procedure pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);// дерево Пифагора
+procedure classic_pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);// классическое дерево Пифагора
 
 implementation
 
@@ -29,6 +31,16 @@ begin
     cur_pos[1] := penx();
     cur_pos[2] := peny();
     lineto(cur_pos[1] + round(len * cos(angle)), cur_pos[2] + round(len * sin(angle)));
+end;
+
+// перемещение указателя на прямую заданной длины и заданного наклона
+procedure move_forward;
+var
+    cur_pos: array[1..2] of integer;
+begin
+    cur_pos[1] := penx();
+    cur_pos[2] := peny();
+    moveto(cur_pos[1] + round(len * cos(angle)), cur_pos[2] + round(len * sin(angle)));
 end;
 
 // отрисовка кривой Коха
@@ -284,6 +296,51 @@ begin
     
     SetPenColor(rgb(101, 224, 128));
     SetPenWidth(4);
+end;
+
+// классическое дерево Пифагора
+procedure classic_pifagor_tree;
+var
+    cur_x, cur_y: integer;
+begin
+    if first then
+    begin
+        moveto(x, y);
+        SetPenColor(rgb(101, 224, 128));
+        first := False;
+    end;
+    
+    // цветовая маркировка глубины рекурсии
+    if (n < 13) and (n >= 10) then
+        SetPenColor(rgb(0, 193, 43))
+    else if (n < 10) and (n >= 1) then
+        SetPenColor(rgb(36, 145, 60))
+    else if (n < 1) then
+        SetPenColor(rgb(0, 125, 28));
+    
+    SetPenWidth(round(l));
+    go_forward(l, a);
+    
+    if (n <= 0) then exit;
+    
+    SetPenColor(rgb(255, 255, 255));
+    move_forward(round(l) div 4, a);
+    
+    cur_x := penx();
+    cur_y := peny();
+    
+    move_forward(round(l) div 4, a + Pi / 2);
+    move_forward(0, a - pi / 2);
+    
+    classic_pifagor_tree(x, y, l / sqrt(2), a + Pi / 4, n - 1, first);
+    moveto(cur_x, cur_y);
+    
+    move_forward(round(l) div 4, a - Pi / 2);
+    move_forward(0, a + pi / 2);
+    
+    classic_pifagor_tree(x, y, l / sqrt(2), a - Pi / 4, n - 1, first);
+    
+    SetPenColor(rgb(101, 224, 128));
 end;
 
 end.
