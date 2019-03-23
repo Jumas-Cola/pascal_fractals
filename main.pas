@@ -65,8 +65,7 @@ begin
     ClearWindow(); // очистка окна
     
     //отрисовка треугольника Серпинского методом хаоса
-    var arr: array of integer := (center.x, 10, center.x - 200, 400, center.x + 200, 400);
-    chaos_serp(arr);
+    chaos_serp(center.x, 10, center.x - 200, 400, center.x + 200, 400);
     
     Sleep(1000); // пауза
     ClearWindow(); // очистка окна

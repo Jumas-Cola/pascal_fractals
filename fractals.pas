@@ -16,7 +16,7 @@ procedure dragon(order: integer; size: real; dir: char := 'r');// отрисов
 procedure serp(order: integer; size: real; dir: char := 'f');// приближённая отрисовка треугольника Серпинского
 procedure serp_square(x, y, l, n: integer; first: boolean := True);// квадрат Серпинского
 procedure serp_triangle(x, y, l, n: integer; first: boolean := True);// треугольник Серпинского
-procedure chaos_serp(arr: array of integer);// процедура отрисовки треугольника Серпинского методом хаоса
+procedure chaos_serp(x1, y1, x2, y2, x3, y3: integer);// процедура отрисовки треугольника Серпинского методом хаоса
 procedure chaos_barns(size, padding_left, padding_bottom: integer);// процедура отрисовки папортника Барнсли
 procedure pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);// дерево Пифагора
 procedure classic_pifagor_tree(x, y: integer; l, a: real; n: integer; first: boolean := True);// классическое дерево Пифагора
@@ -210,16 +210,33 @@ end;
 //процедура отрисовки треугольника Серпинского методом хаоса
 procedure chaos_serp;
 var
-    x: integer;
+    x, y, r: integer;
 begin
-    var center := window.center;
-    moveto(center.x, center.y);
     randomize;
+    x := random(window.Width);
+    y := random(window.Height);
+    moveto(x, y);
     for i: integer := 0 to 100000 do
     begin
-        x := (random(round(length(arr) / 2)) + 1) * 2 - 1;
-        PutPixel(round((arr[x - 1] + penx()) / 2), round((arr[x] + peny()) / 2), clRandom);
-        MoveTo(round((arr[x - 1] + penx()) / 2), round((arr[x] + peny()) / 2));
+        r := random(1, 3);
+        if r = 1 then
+        begin
+            x := (x + x1) div 2;
+            y := (y + y1) div 2;
+        end
+        else if r = 2 then
+        begin
+            x := (x + x2) div 2;
+            y := (y + y2) div 2;
+        end
+        else
+        begin
+            x := (x + x3) div 2;
+            y := (y + y3) div 2;
+        end;
+        
+        PutPixel(x, y, clRandom);
+        MoveTo(x, y);
     end;
 end;
 

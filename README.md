@@ -235,18 +235,36 @@ end;
 ```pascal
 ...
 //процедура отрисовки ковра Серпинского методом хаоса
-procedure chaos_serp(a:array of integer);
-var x:integer;
+procedure chaos_serp(x1, y1, x2, y2, x3, y3: integer);
+var
+    x, y, r: integer;
 begin
-var center := window.center;
-moveto(center.x, center.y);
-randomize;
-for i:integer:=0 to 100000 do
-  begin
-    x:=(random(round(length(a)/2))+1)*2-1;
-    PutPixel(round((a[x-1]+penx())/2), round((a[x]+peny())/2), RGB(0,0,0));
-    MoveTo(round((a[x-1]+penx())/2), round((a[x]+peny())/2));
-  end;
+    randomize;
+    x := random(window.Width);
+    y := random(window.Height);
+    moveto(x, y);
+    for i: integer := 0 to 100000 do
+    begin
+        r := random(1, 3);
+        if r = 1 then
+        begin
+            x := (x + x1) div 2;
+            y := (y + y1) div 2;
+        end
+        else if r = 2 then
+        begin
+            x := (x + x2) div 2;
+            y := (y + y2) div 2;
+        end
+        else
+        begin
+            x := (x + x3) div 2;
+            y := (y + y3) div 2;
+        end;
+
+        PutPixel(x, y, clRandom);
+        MoveTo(x, y);
+    end;
 end;
 ...
 
